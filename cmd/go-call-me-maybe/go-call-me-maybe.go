@@ -24,10 +24,10 @@ func alexaDispatchIntentHandler(req alexa.Request) (*alexa.Response, error) {
 			return errorResponse()
 		}
 		// make a phone call
-		// _, err = client.Calls.MakeCall(cfg.EmergencyPhone(), cfg.OutboundPhone(), scriptURL())
-		// if err != nil {
-		// 	return errorResponse()
-		// }
+		_, err = client.Calls.MakeCall(cfg.EmergencyPhone(), cfg.OutboundPhone(), emergencyScriptURL())
+		if err != nil {
+			return errorResponse()
+		}
 		return simpleResponse("Okay. I have called and texted Josh.")
 	case "NextTenMinutes":
 		// send a low priority text
@@ -38,10 +38,10 @@ func alexaDispatchIntentHandler(req alexa.Request) (*alexa.Response, error) {
 		return simpleResponse("Okay. I let him know. Bug him again if he doesn't respond in 10 minutes.")
 	case "WakeUp":
 		// make a wake up phone call
-		// _, err = client.Calls.MakeCall(cfg.AsleepPhone(), cfg.OutboundPhone(), scriptURL())
-		// if err != nil {
-		// 	return errorResponse()
-		// }
+		_, err := client.Calls.MakeCall(cfg.AsleepPhone(), cfg.OutboundPhone(), nonEmergentScriptURL())
+		if err != nil {
+			return errorResponse()
+		}
 		return simpleResponse("Calling that sleeping hubby now.")
 	case "StatusCheck":
 		// making it this far means everything is ok
@@ -55,8 +55,13 @@ func main() {
 	lambda.Start(alexaDispatchIntentHandler)
 }
 
-func scriptURL() *url.URL {
-	u, _ := url.Parse("https://demo.twilio.com/docs/voice.xml")
+func emergencyScriptURL() *url.URL {
+	u, _ := url.Parse("https://lynda-alert.herokuapp.com/script")
+	return u
+}
+
+func nonEmergentScriptURL() *url.URL {
+	u, _ := url.Parse("https://lynda-alert.herokuapp.com/wake-up")
 	return u
 }
 
