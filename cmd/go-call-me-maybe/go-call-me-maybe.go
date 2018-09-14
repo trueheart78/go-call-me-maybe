@@ -1,7 +1,10 @@
 package main
 
 import (
+	"net/url"
+
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/kevinburke/twilio-go"
 	"github.com/njuettner/go-alexa"
 	"github.com/trueheart78/go-call-me-maybe/internal/pkg/config"
 )
@@ -9,19 +12,36 @@ import (
 func alexaDispatchIntentHandler(req alexa.Request) (*alexa.Response, error) {
 	cfg := config.Config{}
 	if !cfg.Valid() {
-		return simpleResponse("Unable to contact Josh. Please ask Siri for assistance.")
+		return errorResponse()
 	}
+	client := twilio.NewClient(cfg.SID(), cfg.AuthToken(), nil)
 
 	switch req.RequestBody.Intent.Name {
 	case "Emergency":
 		// send a text
+		_, err := client.Messages.SendMessage(cfg.EmergencyPhone(), cfg.OutboundPhone(), "Halp 🚨", nil)
+		if err != nil {
+			return errorResponse()
+		}
 		// make a phone call
+		// _, err = client.Calls.MakeCall(cfg.EmergencyPhone(), cfg.OutboundPhone(), scriptURL())
+		// if err != nil {
+		// 	return errorResponse()
+		// }
 		return simpleResponse("Okay. I have called and texted Josh.")
 	case "NextTenMinutes":
 		// send a low priority text
+		_, err := client.Messages.SendMessage(cfg.NonEmergentPhone(), cfg.OutboundPhone(), "Help me when you have a minute? No rush ❤️", nil)
+		if err != nil {
+			return errorResponse()
+		}
 		return simpleResponse("Okay. I let him know. Bug him again if he doesn't respond in 10 minutes.")
 	case "WakeUp":
 		// make a wake up phone call
+		// _, err = client.Calls.MakeCall(cfg.AsleepPhone(), cfg.OutboundPhone(), scriptURL())
+		// if err != nil {
+		// 	return errorResponse()
+		// }
 		return simpleResponse("Calling that sleeping hubby now.")
 	case "StatusCheck":
 		// making it this far means everything is ok
@@ -33,6 +53,15 @@ func alexaDispatchIntentHandler(req alexa.Request) (*alexa.Response, error) {
 
 func main() {
 	lambda.Start(alexaDispatchIntentHandler)
+}
+
+func scriptURL() *url.URL {
+	u, _ := url.Parse("https://demo.twilio.com/docs/voice.xml")
+	return u
+}
+
+func errorResponse() (*alexa.Response, error) {
+	return simpleResponse("Unable to contact Josh. Please ask Siri for assistance.")
 }
 
 func simpleResponse(content string) (*alexa.Response, error) {

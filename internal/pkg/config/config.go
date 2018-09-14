@@ -5,7 +5,7 @@ import "os"
 type Config struct{}
 
 func (c Config) Valid() bool {
-	if c.SID() != "" && c.AuthToken() != "" && c.EmergencyPhone() != "" {
+	if c.SID() != "" && c.AuthToken() != "" && c.EmergencyPhone() != "" && c.OutboundPhone() != "" {
 		return true
 	}
 	return false
@@ -17,6 +17,10 @@ func (c Config) SID() string {
 
 func (c Config) AuthToken() string {
 	return os.Getenv("TWILIO_AUTH_TOKEN")
+}
+
+func (c Config) OutboundPhone() string {
+	return os.Getenv("OUTBOUND_PHONE_NUMBER")
 }
 
 func (c Config) EmergencyPhone() string {

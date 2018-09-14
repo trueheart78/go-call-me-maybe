@@ -12,6 +12,7 @@ var authToken = "token"
 var emergencyPhone = "+1234567890"
 var nonEmergentPhone = "+2345678901"
 var asleepPhone = "+3456789012"
+var outboundPhone = "+4567890123"
 
 // TestConfigSetup description
 func TestConfigSetup(t *testing.T) {
@@ -26,6 +27,7 @@ func TestConfigSetup(t *testing.T) {
 	assert.Equal(emergencyPhone, cfg.EmergencyPhone(), "they should be equal")
 	assert.Equal(nonEmergentPhone, cfg.NonEmergentPhone(), "they should be equal")
 	assert.Equal(asleepPhone, cfg.AsleepPhone(), "they should be equal")
+	assert.Equal(outboundPhone, cfg.OutboundPhone(), "they should be equal")
 	assert.True(cfg.Valid(), "should be valid")
 
 	clearExtraPhones()
@@ -48,6 +50,7 @@ func setupEnvs() {
 	os.Setenv("TWILIO_EMERGENCY_PHONE_NUMBER", emergencyPhone)
 	os.Setenv("TWILIO_NON_EMERGENT_PHONE_NUMBER", nonEmergentPhone)
 	os.Setenv("TWILIO_ASLEEP_PHONE_NUMBER", asleepPhone)
+	os.Setenv("OUTBOUND_PHONE_NUMBER", outboundPhone)
 }
 
 func clearExtraPhones() {

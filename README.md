@@ -13,6 +13,7 @@ You need to set the following in your configuration for your environment:
 TWILIO_ACCOUNT_SID
 TWILIO_AUTH_TOKEN
 TWILIO_EMERGENCY_PHONE_NUMBER
+OUTBOUND_PHONE_NUMBER
 ```
 
 The following are optional. They default to the `TWILIO_EMERGENCY_PHONE_NUMBER` if unset.
