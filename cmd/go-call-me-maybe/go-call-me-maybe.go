@@ -19,6 +19,7 @@ func alexaDispatchIntentHandler(req alexa.Request) (*alexa.Response, error) {
 	switch req.RequestBody.Intent.Name {
 	case "Emergency":
 		// send a text
+		// TODO create a sendEmergencyRequest(), maybe do the url.Parse in there, as well
 		_, err := client.Messages.SendMessage(cfg.EmergencyPhone(), cfg.OutboundPhone(), "Halp 🚨", nil)
 		if err != nil {
 			return errorResponse()
@@ -31,6 +32,7 @@ func alexaDispatchIntentHandler(req alexa.Request) (*alexa.Response, error) {
 		return simpleResponse("Okay. I have called and texted Josh.")
 	case "NextTenMinutes":
 		// send a low priority text
+		// TODO create a sendNonEmergentRequest()
 		_, err := client.Messages.SendMessage(cfg.NonEmergentPhone(), cfg.OutboundPhone(), "Help me when you have a minute? No rush ❤️", nil)
 		if err != nil {
 			return errorResponse()
@@ -38,6 +40,7 @@ func alexaDispatchIntentHandler(req alexa.Request) (*alexa.Response, error) {
 		return simpleResponse("Okay. I let him know. Bug him again if he doesn't respond in 10 minutes.")
 	case "WakeUp":
 		// make a wake up phone call
+		// TODO create a sendWakeUpRequest(), maybe do the url.Parse in there, as well
 		_, err := client.Calls.MakeCall(cfg.AsleepPhone(), cfg.OutboundPhone(), nonEmergentScriptURL())
 		if err != nil {
 			return errorResponse()
