@@ -25,7 +25,7 @@ func alexaDispatchIntentHandler(req alexa.Request) (*alexa.Response, error) {
 		return simpleResponse("Calling that sleeping hubby now.")
 	case "StatusCheck":
 		// making it this far means everything is ok
-		return simpleResponse("Everything seems to be in working order.")
+		return simpleResponse("Everything seems to be working.")
 	default:
 		return alexaHelpHandler()
 	}
