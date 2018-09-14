@@ -12,14 +12,32 @@
   version = "v1.6.0"
 
 [[projects]]
+  name = "github.com/davecgh/go-spew"
+  packages = ["spew"]
+  revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
+  version = "v1.1.1"
+
+[[projects]]
   branch = "master"
   name = "github.com/njuettner/go-alexa"
   packages = ["."]
   revision = "597b47bb0b892a3c1e301f158a71ea51a2ad184f"
 
+[[projects]]
+  name = "github.com/pmezard/go-difflib"
+  packages = ["difflib"]
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
+  version = "v1.0.0"
+
+[[projects]]
+  name = "github.com/stretchr/testify"
+  packages = ["assert"]
+  revision = "f35b8ab0b5a2cef36673838d662e249dd9c94686"
+  version = "v1.2.2"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "537ca2549c03e85a7fc8ad366d0e5c6b22d75d7d73991d87b89d89a394ac4865"
+  inputs-digest = "48f32c634514e52ece204caac5ff497fc368afe16a9ef238ac7efb42c781053a"
   solver-name = "gps-cdcl"
   solver-version = 1

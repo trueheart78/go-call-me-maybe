@@ -1,14 +1,14 @@
 package main
 
 import (
-	"os"
-
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/njuettner/go-alexa"
+	"github.com/trueheart78/go-call-me-maybe/internal/pkg/config"
 )
 
 func alexaDispatchIntentHandler(req alexa.Request) (*alexa.Response, error) {
-	if !validEnvironment() {
+	cfg := config.Config{}
+	if !cfg.Valid() {
 		return simpleResponse("Unable to contact Josh. Please ask Siri for assistance.")
 	}
 
@@ -23,6 +23,9 @@ func alexaDispatchIntentHandler(req alexa.Request) (*alexa.Response, error) {
 	case "WakeUp":
 		// make a wake up phone call
 		return simpleResponse("Calling that sleeping hubby now.")
+	case "StatusCheck":
+		// making it this far means everything is ok
+		return simpleResponse("Everything seems to be in working order.")
 	default:
 		return alexaHelpHandler()
 	}
@@ -30,13 +33,6 @@ func alexaDispatchIntentHandler(req alexa.Request) (*alexa.Response, error) {
 
 func main() {
 	lambda.Start(alexaDispatchIntentHandler)
-}
-
-func validEnvironment() bool {
-	if os.Getenv("TWILIO_ACCOUNT_SID") != "" && os.Getenv("TWILIO_AUTH_TOKEN") != "" && os.Getenv("TWILIO_EMERGENCY_PHONE_NUMBER") != "" {
-		return true
-	}
-	return false
 }
 
 func simpleResponse(content string) (*alexa.Response, error) {
