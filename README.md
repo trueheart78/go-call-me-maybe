@@ -5,6 +5,17 @@ an emergency.
 
 ![Taylor Swift - Call Me](assets/taylor-swift-call-me.gif)
 
+## Environment Vars
+
+You need to set the following in your configuration for your environment:
+
+```
+TWILIO_ACCOUNT_SID
+TWILIO_AUTH_TOKEN
+TWILIO_EMERGENCY_PHONE_NUMBER
+TWILIO_ASLEEP_PHONE_NUMBER
+TWILIO_NON_EMERGENT_PHONE_NUMBER
+```
 
 ## Development
 
