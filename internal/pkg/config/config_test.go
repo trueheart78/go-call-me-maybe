@@ -13,6 +13,8 @@ var emergencyPhone = "+1234567890"
 var nonEmergentPhone = "+2345678901"
 var asleepPhone = "+3456789012"
 var outboundPhone = "+4567890123"
+var emergencyURL = "http://123.com/emergency"
+var asleepURL = "http://123.com/asleep"
 
 // TestConfigSetup description
 func TestConfigSetup(t *testing.T) {
@@ -37,11 +39,26 @@ func TestConfigSetup(t *testing.T) {
 }
 
 // TestNil description
-func TestNil(t *testing.T) {
+func TestValidPhones(t *testing.T) {
 	assert := assert.New(t)
-	// assert for nil - good for error-checking
-	assert.Nil(nil, "should be nil")
-	assert.NotNil(0, "should not be nil")
+	cfg := Config{}
+	setupEnvs()
+
+	assert.True(cfg.ValidPhones(), "should be valid")
+	os.Setenv("TWILIO_EMERGENCY_PHONE_NUMBER", "1234567890")
+	assert.False(cfg.ValidPhones(), "should be invalid")
+
+	setupEnvs()
+	os.Setenv("TWILIO_NON_EMERGENT_PHONE_NUMBER", "1234567890")
+	assert.False(cfg.ValidPhones(), "should be invalid")
+
+	setupEnvs()
+	os.Setenv("TWILIO_ASLEEP_PHONE_NUMBER", "1234567890")
+	assert.False(cfg.ValidPhones(), "should be invalid")
+
+	setupEnvs()
+	os.Setenv("OUTBOUND_PHONE_NUMBER", "1234567890")
+	assert.False(cfg.ValidPhones(), "should be invalid")
 }
 
 func setupEnvs() {
@@ -51,6 +68,8 @@ func setupEnvs() {
 	os.Setenv("TWILIO_NON_EMERGENT_PHONE_NUMBER", nonEmergentPhone)
 	os.Setenv("TWILIO_ASLEEP_PHONE_NUMBER", asleepPhone)
 	os.Setenv("OUTBOUND_PHONE_NUMBER", outboundPhone)
+	os.Setenv("SCRIPT_EMERGENCY_URL", emergencyURL)
+	os.Setenv("SCRIPT_ASLEEP_URL", asleepURL)
 }
 
 func clearExtraPhones() {
