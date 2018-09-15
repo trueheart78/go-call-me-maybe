@@ -7,7 +7,8 @@ an emergency.
 
 ## Environment Vars
 
-You need to set the following in your configuration for your environment:
+You need to set the following in your configuration for your environment. If they are not setup, the lambda
+will not work correctly.
 
 ```
 TWILIO_ACCOUNT_SID
@@ -25,7 +26,7 @@ TWILIO_NON_EMERGENT_PHONE_NUMBER
 SCRIPT_ASLEEP_URL
 ```
 
-:warning: Phone numbers **must** have a leading `+`, or Twilio will not work.
+:warning: Phone numbers **must** have a leading `+`, or Twilio will not work. The code does check for this.
 
 ## Hosting XML For Calls
 
@@ -45,6 +46,15 @@ will state that there was an error.
 </Response>
 ```
 
+## Alexa Skill Setup
+
+[Here's the JSON I use][alexa json]. You should be able to import it and adjust it according to your needs.
+
+## Lambda Binary
+
+Run the `build/lambda.sh` script and check the `out/` directory for the archive to use. Make sure to set the
+_Handler_ field in the AWS Lambda page to `lambda_handler` when uploading.
+
 ## Development
 
 ```
@@ -56,3 +66,4 @@ Structure should stay with the [Standard Go Project Layout]
 [twiml bins]: https://www.twilio.com/console/runtime/twiml-bins
 [layout]: https://github.com/golang-standards/project-layout
 [taylor]: assets/taylor-swift-call-me.gif
+[alexa json]: assets/alexa.json

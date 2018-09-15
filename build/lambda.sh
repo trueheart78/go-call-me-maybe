@@ -8,4 +8,5 @@ cd out
 zip lambda.zip lambda_handler
 rm lambda_handler
 
-echo "complete - your lambda is called 'lambda_handler'"
+echo "handler: lambda_handler"
+echo "done"

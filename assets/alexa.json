@@ -1,0 +1,88 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "josh",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": [
+                        "cancel"
+                    ]
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": [
+                        "how does this work",
+                        "what can i say",
+                        "phrasing",
+                        "phrases",
+                        "what do i say"
+                    ]
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "stop"
+                    ]
+                },
+                {
+                    "name": "Emergency",
+                    "slots": [],
+                    "samples": [
+                        "help",
+                        "help me",
+                        "i need him",
+                        "i need you"
+                    ]
+                },
+                {
+                    "name": "NextTenMinutes",
+                    "slots": [],
+                    "samples": [
+                        "i need you when you have a minute",
+                        "i need you its not urgent",
+                        "its not urgent",
+                        "i need you when you have time"
+                    ]
+                },
+                {
+                    "name": "WakeUp",
+                    "slots": [],
+                    "samples": [
+                        "wake up the dogs need to go out",
+                        "wake up the dogs need to go potty",
+                        "wake up the dogs need to go pee",
+                        "the dogs need to go pee",
+                        "the dogs need to go potty",
+                        "the dogs need to go out",
+                        "stop snoring",
+                        "wake up"
+                    ]
+                },
+                {
+                    "name": "StatusCheck",
+                    "slots": [],
+                    "samples": [
+                        "debug",
+                        "ping check",
+                        "ping status",
+                        "setup properly",
+                        "setup",
+                        "setup correctly",
+                        "configured correctly",
+                        "configured properly",
+                        "configured",
+                        "are you working",
+                        "working",
+                        "config",
+                        "heartbeat",
+                        "ping",
+                        "status check",
+                        "status"
+                    ]
+                }
+            ],
+            "types": []
+        }
+    }
+}

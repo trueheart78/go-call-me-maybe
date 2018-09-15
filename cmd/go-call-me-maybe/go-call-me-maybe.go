@@ -10,48 +10,22 @@ import (
 )
 
 func alexaDispatchIntentHandler(req alexa.Request) (*alexa.Response, error) {
+	cfg := config.Config{}
 	if req.RequestBody.Intent.Name == "StatusCheck" {
-		return statusCheck()
+		return statusCheck(cfg)
 	}
 
-	cfg := config.Config{}
 	if !cfg.Valid() {
 		return errorResponse()
 	}
-	client := twilio.NewClient(cfg.SID(), cfg.AuthToken(), nil)
 
 	switch req.RequestBody.Intent.Name {
 	case "Emergency":
-		// send a text
-		// TODO create a sendEmergencyRequest()
-		_, err := client.Messages.SendMessage(cfg.EmergencyPhone(), cfg.OutboundPhone(), "🚨 Halp 🚨", nil)
-		if err != nil {
-			return errorResponse()
-		}
-		// make a phone call
-		u, _ := url.Parse(cfg.EmergencyURL())
-		_, err = client.Calls.MakeCall(cfg.EmergencyPhone(), cfg.OutboundPhone(), u)
-		if err != nil {
-			return errorResponse()
-		}
-		return simpleResponse("Okay. I have called and texted Josh.")
+		return sendEmergencyRequest(cfg)
 	case "NextTenMinutes":
-		// send a low priority text
-		// TODO create a sendNonEmergentRequest()
-		_, err := client.Messages.SendMessage(cfg.NonEmergentPhone(), cfg.OutboundPhone(), "Help me when you have a minute? No rush 💖", nil)
-		if err != nil {
-			return errorResponse()
-		}
-		return simpleResponse("Okay. I let him know. Bug him again if he doesn't respond in 10 minutes.")
+		return sendNonEmergentRequest(cfg)
 	case "WakeUp":
-		// make a wake up phone call
-		// TODO create a sendWakeUpRequest()
-		u, _ := url.Parse(cfg.AsleepURL())
-		_, err := client.Calls.MakeCall(cfg.AsleepPhone(), cfg.OutboundPhone(), u)
-		if err != nil {
-			return errorResponse()
-		}
-		return simpleResponse("Calling that sleeping hubby now.")
+		return sendWakeUpRequest(cfg)
 	default:
 		return alexaHelpHandler()
 	}
@@ -61,8 +35,47 @@ func main() {
 	lambda.Start(alexaDispatchIntentHandler)
 }
 
-func statusCheck() (*alexa.Response, error) {
-	cfg := config.Config{}
+// send a text & make a phone call
+func sendEmergencyRequest(cfg config.Config) (*alexa.Response, error) {
+	client := twilio.NewClient(cfg.SID(), cfg.AuthToken(), nil)
+	// send a text
+	_, err := client.Messages.SendMessage(cfg.EmergencyPhone(), cfg.OutboundPhone(), "🚨 Halp 🚨", nil)
+	if err != nil {
+		return errorResponse()
+	}
+	// make a phone call
+	u, _ := url.Parse(cfg.EmergencyURL())
+	_, err = client.Calls.MakeCall(cfg.EmergencyPhone(), cfg.OutboundPhone(), u)
+	if err != nil {
+		return errorResponse()
+	}
+	return simpleResponse("Okay. I have called and texted Josh.")
+}
+
+// send a low priority text
+func sendNonEmergentRequest(cfg config.Config) (*alexa.Response, error) {
+	client := twilio.NewClient(cfg.SID(), cfg.AuthToken(), nil)
+	_, err := client.Messages.SendMessage(cfg.NonEmergentPhone(), cfg.OutboundPhone(), "Help me when you have a minute? No rush 💖", nil)
+	if err != nil {
+		return errorResponse()
+	}
+	return simpleResponse("Okay. I let him know. Bug him again if he doesn't respond in 10 minutes.")
+}
+
+// make a wake up phone call
+func sendWakeUpRequest(cfg config.Config) (*alexa.Response, error) {
+	client := twilio.NewClient(cfg.SID(), cfg.AuthToken(), nil)
+	// make a wake up phone call
+	u, _ := url.Parse(cfg.AsleepURL())
+	_, err := client.Calls.MakeCall(cfg.AsleepPhone(), cfg.OutboundPhone(), u)
+	if err != nil {
+		return errorResponse()
+	}
+	return simpleResponse("Calling that sleeping hubby now.")
+
+}
+
+func statusCheck(cfg config.Config) (*alexa.Response, error) {
 	if !cfg.Valid() {
 		if !cfg.ValidVariables() {
 			return simpleResponse("There are missing configuration values.")
