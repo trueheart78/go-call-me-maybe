@@ -61,7 +61,7 @@ _Handler_ field in the AWS Lambda page to `lambda_handler` when uploading.
 go get github.com/trueheart78/go-call-me-maybe
 ```
 
-Structure should stay with the [Standard Go Project Layout]
+Structure should stay with the [Standard Go Project Layout][layout].
 
 [twiml bins]: https://www.twilio.com/console/runtime/twiml-bins
 [layout]: https://github.com/golang-standards/project-layout
