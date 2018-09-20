@@ -26,15 +26,27 @@ TWILIO_NON_EMERGENT_PHONE_NUMBER
 SCRIPT_ASLEEP_URL
 ```
 
-:warning: Phone numbers **must** have a leading `+`, or Twilio will not work. The code does check for this.
+:warning: Phone numbers **must** have a leading `+`, or Twilio will not work. The code does check for
+this.
+
+## Redis Integration and Pub-Sub Notifications
+
+If you would like to take advantage of the pub-sub notifications that the sister application
+[Go! Call Me Notifier][go call me notifier] utilizes. They are _optional_ and do not affect the way the
+lambda works.
+
+```
+REDIS_URL
+REDIS_PASSWORD
+```
 
 ## Hosting XML For Calls
 
 Twilio has [TwiML Bins][twiml bins] where you can put the XML for your scripts. You can't create dynamic
 responses, but it makes it simpler than having to manage another service.
 
-:warning: Regardless of where you host your XML, they need to be accessible via `POST`, otherwise calls made
-will state that there was an error.
+:warning: Regardless of where you host your XML, they need to be accessible via `POST`, otherwise calls
+made will state that there was an error.
 
 ### Sample XML
 
@@ -67,3 +79,4 @@ Structure should stay with the [Standard Go Project Layout][layout].
 [layout]: https://github.com/golang-standards/project-layout
 [taylor]: assets/taylor-swift-call-me.gif
 [alexa json]: assets/alexa.json
+[go call me notifier]: https://github.com/trueheart78/go-call-me-notifier
