@@ -32,8 +32,8 @@ this.
 ## Redis Integration and Pub-Sub Notifications
 
 If you would like to take advantage of the pub-sub notifications that the sister application
-[Go! Call Me Notifier][go call me notifier] utilizes. They are _optional_ and do not affect the way the
-lambda works.
+[Go! Call Me Notifier][go call me notifier] utilizes, the following environment variables are
+required. This feature is _optional_, and leaving these out will not affect the way the lambda works.
 
 ```
 REDIS_URL
