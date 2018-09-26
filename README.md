@@ -40,6 +40,13 @@ REDIS_URL
 REDIS_PASSWORD
 ```
 
+The following are _optional_, and default to `emergency` and `nonemergent`, respectively.
+
+```
+REDIS_CHANNEL_EMERGENCY
+REDIS_CHANNEL_NONEMERGENT
+```
+
 ## Hosting XML For Calls
 
 Twilio has [TwiML Bins][twiml bins] where you can put the XML for your scripts. You can't create dynamic

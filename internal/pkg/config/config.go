@@ -22,7 +22,14 @@ func (c Config) ValidVariables() bool {
 		return true
 	}
 	return false
+}
 
+// ValidRedis retuerns whether the redis-oriented environment variables have values
+func (c Config) ValidRedis() bool {
+	if c.RedisURL() != "" && c.RedisPassword() != "" {
+		return true
+	}
+	return false
 }
 
 // ValidPhones returns whether the detected phone numbers begin with a '+' sign
@@ -88,4 +95,30 @@ func (c Config) AsleepURL() string {
 		return os.Getenv("SCRIPT_ASLEEP_URL")
 	}
 	return c.EmergencyURL()
+}
+
+// RedisURL for connecting to the redis datastore
+func (c Config) RedisURL() string {
+	return os.Getenv("REDIS_URL")
+}
+
+// RedisPassword for authenticating with the redis datastore
+func (c Config) RedisPassword() string {
+	return os.Getenv("REDIS_PASSWORD")
+}
+
+// RedisChannelEmergency for publishing emergency alerts
+func (c Config) RedisChannelEmergency() string {
+	if os.Getenv("REDIS_CHANNEL_EMERGENCY") != "" {
+		return os.Getenv("REDIS_CHANNEL_EMERGENCY")
+	}
+	return "emergency"
+}
+
+// RedisChannelNonEmergent for publishing non-emergent alerts
+func (c Config) RedisChannelNonEmergent() string {
+	if os.Getenv("REDIS_CHANNEL_NONEMERGENT") != "" {
+		return os.Getenv("REDIS_CHANNEL_NONEMERGENT")
+	}
+	return "nonemergent"
 }
