@@ -1,9 +1,11 @@
 package main
 
 import (
+	"log"
 	"net/url"
 
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/go-redis/redis"
 	"github.com/kevinburke/twilio-go"
 	"github.com/njuettner/go-alexa"
 	"github.com/trueheart78/go-call-me-maybe/internal/pkg/config"
@@ -21,8 +23,14 @@ func alexaDispatchIntentHandler(req alexa.Request) (*alexa.Response, error) {
 
 	switch req.RequestBody.Intent.Name {
 	case "Emergency":
+		if cfg.ValidRedis() {
+			sendRedisNotification(cfg, cfg.RedisChannelEmergency())
+		}
 		return sendEmergencyRequest(cfg)
 	case "NextTenMinutes":
+		if cfg.ValidRedis() {
+			sendRedisNotification(cfg, cfg.RedisChannelNonEmergent())
+		}
 		return sendNonEmergentRequest(cfg)
 	case "WakeUp":
 		return sendWakeUpRequest(cfg)
@@ -33,6 +41,25 @@ func alexaDispatchIntentHandler(req alexa.Request) (*alexa.Response, error) {
 
 func main() {
 	lambda.Start(alexaDispatchIntentHandler)
+}
+
+func sendRedisNotification(cfg config.Config, channelName string) {
+	redisdb := redis.NewClient(&redis.Options{
+		Addr:     cfg.RedisURL(),
+		Password: cfg.RedisPassword(),
+		DB:       0, // use default DB
+	})
+
+	_, err := redisdb.Ping().Result()
+	if err != nil {
+		log.Printf("Error: Unable to connect to redis\n  url: %v\n", cfg.RedisURL())
+		return
+	}
+
+	err = redisdb.Publish(channelName, 1).Err()
+	if err != nil {
+		log.Printf("Error: %v\n", err.Error())
+	}
 }
 
 // send a text & make a phone call
