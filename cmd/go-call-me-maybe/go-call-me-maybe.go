@@ -76,7 +76,7 @@ func sendEmergencyRequest(cfg config.Config) (*alexa.Response, error) {
 	if err != nil {
 		return errorResponse()
 	}
-	return simpleResponse("Okay. I have called and texted Josh.")
+	return simpleResponse("Okay. I have called and texted " + cfg.ContactName() + ".")
 }
 
 // send a low priority text
@@ -86,7 +86,7 @@ func sendNonEmergentRequest(cfg config.Config) (*alexa.Response, error) {
 	if err != nil {
 		return errorResponse()
 	}
-	return simpleResponse("Okay. I let him know. Bug him again if he doesn't respond in 10 minutes.")
+	return simpleResponse("Okay. I let them know. Bug them again if they don't respond in 10 minutes.")
 }
 
 // make a wake up phone call
@@ -98,8 +98,7 @@ func sendWakeUpRequest(cfg config.Config) (*alexa.Response, error) {
 	if err != nil {
 		return errorResponse()
 	}
-	return simpleResponse("Calling that sleeping hubby now.")
-
+	return simpleResponse("Calling that sleeping " + cfg.ContactName() + " now.")
 }
 
 func statusCheck(cfg config.Config) (*alexa.Response, error) {
@@ -117,7 +116,7 @@ func statusCheck(cfg config.Config) (*alexa.Response, error) {
 }
 
 func errorResponse() (*alexa.Response, error) {
-	return simpleResponse("Unable to contact Josh. Please ask Siri for assistance.")
+	return simpleResponse("Unable to contact them. Maybe try asking Siri for assistance?")
 }
 
 func simpleResponse(content string) (*alexa.Response, error) {
