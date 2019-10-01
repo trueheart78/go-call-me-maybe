@@ -61,7 +61,7 @@ The following are optional. They default to the emergency-related values if unse
 
 ```
 TWILIO_ASLEEP_PHONE_NUMBER       # The phone number purchased from Twillio for sending a wakeup call.
-TWILIO_NON_EMERGENT_PHONE_NUMBER # The phone number purchased from Twilio for ending a non-emergent call.
+TWILIO_NON_EMERGENT_PHONE_NUMBER # The phone number purchased from Twilio for sending a non-emergent call.
 SCRIPT_ASLEEP_URL                # The URL of the XML (TwiML Bin) for a wakeup call.
 ```
 
