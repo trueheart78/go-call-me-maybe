@@ -19,6 +19,7 @@ var redisURL = "sample.redis.com:123"
 var redisPassword = "password"
 var redisChannelEmergency = "channela"
 var redisChannelNonEmergent = "channelb"
+var contactName = "john smith"
 
 func TestConfigSetup(t *testing.T) {
 	assert := assert.New(t)
@@ -91,6 +92,14 @@ func TestRedisChannels(t *testing.T) {
 	assert.Equal("nonemergent", cfg.RedisChannelNonEmergent(), "should be the default")
 }
 
+func TestContactName(t *testing.T) {
+	assert := assert.New(t)
+	cfg := Config{}
+	setupEnvs()
+
+	assert.Equal(contactName, cfg.ContactName(), "should be equal")
+}
+
 func setupEnvs() {
 	os.Setenv("TWILIO_ACCOUNT_SID", sid)
 	os.Setenv("TWILIO_AUTH_TOKEN", authToken)
@@ -104,6 +113,7 @@ func setupEnvs() {
 	os.Setenv("REDIS_PASSWORD", redisPassword)
 	os.Setenv("REDIS_CHANNEL_EMERGENCY", redisChannelEmergency)
 	os.Setenv("REDIS_CHANNEL_NONEMERGENT", redisChannelNonEmergent)
+	os.Setenv("CONTACT_NAME", contactName)
 }
 
 func clearExtraPhones() {

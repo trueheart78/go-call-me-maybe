@@ -18,7 +18,7 @@ func (c Config) Valid() bool {
 
 // ValidVariables returns whether the expected environment variables have values
 func (c Config) ValidVariables() bool {
-	if c.SID() != "" && c.AuthToken() != "" && c.EmergencyPhone() != "" && c.OutboundPhone() != "" && c.EmergencyURL() != "" {
+	if c.SID() != "" && c.AuthToken() != "" && c.EmergencyPhone() != "" && c.OutboundPhone() != "" && c.EmergencyURL() != "" && c.ContactName() != "" {
 		return true
 	}
 	return false
@@ -121,4 +121,9 @@ func (c Config) RedisChannelNonEmergent() string {
 		return os.Getenv("REDIS_CHANNEL_NONEMERGENT")
 	}
 	return "nonemergent"
+}
+
+// ContactName for replying with the right persons name
+func (c Config) ContactName() string {
+	return os.Getenv("CONTACT_NAME")
 }
