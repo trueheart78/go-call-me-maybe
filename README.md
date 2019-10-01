@@ -49,25 +49,26 @@ You need to set the following in your configuration for your environment. If the
 will not work correctly.
 
 ```
-TWILIO_ACCOUNT_SID
-TWILIO_AUTH_TOKEN
-TWILIO_EMERGENCY_PHONE_NUMBER
-OUTBOUND_PHONE_NUMBER
-SCRIPT_EMERGENCY_URL
+CONTACT_NAME                     # The name of the person being called.
+TWILIO_ACCOUNT_SID               # The Account SID for Twilio.
+TWILIO_AUTH_TOKEN                # The Auth Token for Twilio.
+TWILIO_EMERGENCY_PHONE_NUMBER    # The phone number purchased from Twilio.
+OUTBOUND_PHONE_NUMBER            # The phone number to be called and texted. 
+SCRIPT_EMERGENCY_URL             # The URL of the XML (TwiML Bin) for the standard emergency call.
 ```
 
 The following are optional. They default to the emergency-related values if unset.
 
 ```
-TWILIO_ASLEEP_PHONE_NUMBER
-TWILIO_NON_EMERGENT_PHONE_NUMBER
-SCRIPT_ASLEEP_URL
+TWILIO_ASLEEP_PHONE_NUMBER       # The phone number purchased from Twillio for when sending a wakeup call.
+TWILIO_NON_EMERGENT_PHONE_NUMBER # The phone number purchased from Twilio for when sending a non-emergent call.
+SCRIPT_ASLEEP_URL                # The URL of the XML (TwiML Bin) for a wakeup call.
 ```
 
 :warning: Phone numbers **must** have a leading `+`, or Twilio will not work. The code does check for
 this.
 
-#### Redis Integration and Pub-Sub Notifications
+#### Redis Integration and Pub-Sub Notifications (Optional)
 
 If you would like to take advantage of the pub-sub notifications that the sister application
 [Go! Call Me Notifier][go call me notifier] utilizes, the following environment variables are
